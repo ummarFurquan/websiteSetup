@@ -3,8 +3,8 @@
 #Variable declaration
 PACKAGE_NAME="httpd wget unzip"
 SVC="httpd"
-URL="https://www.tooplate.com/zip-templates/2108_dashboard.zip"
-ARTIFACT_NAME="2108_dashboard.zip"
+#URL="https://www.tooplate.com/zip-templates/2108_dashboard.zip"
+#ARTIFACT_NAME="2108_dashboard.zip"
 EXTRACTED_DIR="2108_dashboard"
 TMP_DIR="/tmp/webfiles"
 
@@ -25,9 +25,9 @@ mkdir -p $TMP_DIR
 cd $TMP_DIR || exit 
 echo
 
-wget $URL > /dev/null
-unzip $ARTIFACT_NAME > /dev/null
-sudo cp -r $EXTRACTED_DIR/* /var/www/html/
+wget $1 > /dev/null
+unzip $2 > /dev/null
+sudo cp -r $2/* /var/www/html/
 
 #Bounce Service
 echo "Restarting $SVC service"
