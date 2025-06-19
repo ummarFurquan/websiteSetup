@@ -1,28 +1,43 @@
+#!/bin/bash
+
+#Variable declaration
+PACKAGE_NAME="httpd wget unzip"
+SVC="httpd"
+URL="https://www.tooplate.com/zip-templates/2108_dashboard.zip"
+ARTIFACT_NAME="2108_dashboard.zip"
+EXTRACTED_DIR="2108_dashboard"
+TMP_DIR="/tmp/webfiles"
+
+#Installing Dependencies $PACKAGE_NAME
+echo "Installing Dependencies: $PACKAGE_NAME"
+sudo yum install -y $PACKAGE_NAME > /dev/null
+
 #Start & Enable Service
-echo "Starting and Enabling HTTPD"
-sudo systemctl start httpd
-sudo systemctl enable httpd
+echo "Starting and Enabling $SVC service"
+sudo systemctl start $SVC
+sudo systemctl enable $SVC
 echo
 
 
 #Creating TMP dir
 echo "Creating a tmp dir and extracting zip files and copying them to /var/html"
-mkdir -p /tmp/webfiles
-cd /tmp/webfiles
+mkdir -p $TMP_DIR
+cd $TMP_DIR || exit 
 echo
 
-wget https://www.tooplate.com/zip-templates/2108_dashboard.zip > /dev/null
-unzip 2108_dashboard.zip > /dev/null
-sudo cp -r 2108_dashboard/* /var/www/html/
+wget $URL > /dev/null
+unzip $ARTIFACT_NAME > /dev/null
+sudo cp -r $EXTRACTED_DIR/* /var/www/html/
 
 #Bounce Service
-echo "Restarting HTTPD service"
-systemctl restart httpd
+echo "Restarting $SVC service"
+systemctl restart $SVC
+echo
 
 
 #Remove tmp Files
 echo "Removing tmp files"
-rm -rf /tmp/webfiles
+rm -rf $TMP_DIR
 echo
 
 sudo systemctl status httpd
